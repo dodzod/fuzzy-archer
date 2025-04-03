@@ -70,6 +70,9 @@
                                 <td>
                                     #if $col[1]
                                         $getattr($getattr($col[0], $obs_type), $aggregate_type)
+                                        #if $obs_type == 'wind'
+                                            $getattr($getattr($col[0], $obs_type), 'gustdir').ordinal_compass
+                                        #end if
                                         #if $show_time
                                             <br><span class="statsTime">
                                             #if $aggregate_type in ['max', 'min', 'maxmin', 'minmax', 'maxsum', 'minsum', 'minavg', 'maxavg']
