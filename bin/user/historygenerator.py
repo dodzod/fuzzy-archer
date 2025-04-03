@@ -329,7 +329,7 @@ class MyXSearch(SearchList):
                         log.error("Error in [HistoryReport][[%s]]: check units" % table)
                         return None
 
-                    line["values"].append(self._colorCell(value, format_string, cell_colors))
+                    line["values"].append(self._colorCell(value, format_string, cell_colors, month))
 
             if summary_column:
                 obs_year = getattr(year, obs_type)
@@ -340,7 +340,7 @@ class MyXSearch(SearchList):
                 else:
                     value = converter.convert(getattr(obs_year, aggregate_type).value_t)
 
-                line["summary"] = self._colorCell(value, format_string, summary_cell_colors)
+                line["summary"] = self._colorCell(value, format_string, summary_cell_colors, year)
 
             table_dict["lines"].append(line)
 
@@ -352,7 +352,7 @@ class MyXSearch(SearchList):
         except:
             return [0, 'count']
 
-    def _colorCell(self, value, format_string, cell_colors):
+    def _colorCell(self, value, format_string, cell_colors, period):
         """Returns a '<div style= background-color: XX; color: YY"> z.zz </div>' html table entry string.
 
         value: Numeric value for the observation
@@ -368,4 +368,7 @@ class MyXSearch(SearchList):
                     cell["fontcolor"] = c[2]
                     break
             cell["value"] = vh.format(format_string, None, False, True)
+            if value[1] == "mile_per_hour":
+                gust_vh = weewx.units.ValueHelper(getattr(getattr(period,"wind"),"gustdir").value_t)
+                cell["value"] += " " + gust_vh.ordinal_compass()
         return cell
