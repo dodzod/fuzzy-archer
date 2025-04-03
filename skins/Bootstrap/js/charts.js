@@ -212,6 +212,24 @@ function getChartOption(seriesConfigs) {
                             formattedValue = "";
                         }
                     }
+                    if (obs_group === "group_direction") {
+                        switch (value) {
+                            case 0:
+                                formattedValue = "N";
+                                break;
+                            case 90:
+                                formattedValue = "E";
+                                break;
+                            case 180:
+                                formattedValue = "S";
+                                break;
+                            case 270:
+                                formattedValue = "W";
+                                break;
+                            case 360:
+                                formattedValue = "N";
+                        }
+                    }
                     return formattedValue;
                 },
                 fontSize: yAxisIndices[yAxisIndex]["labelFontSize"]
